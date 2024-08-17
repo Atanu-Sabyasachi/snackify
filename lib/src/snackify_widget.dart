@@ -3,15 +3,6 @@
 import 'package:flutter/material.dart';
 
 class SnackifyWidget extends StatefulWidget {
-  final String message;
-  final Color backgroundColor;
-  final Color textColor;
-  final Duration duration;
-  final Duration animationDuration;
-  final double snackbarHeight;
-  final double snackbarWidth;
-  final Curve animationCurve;
-
   const SnackifyWidget({
     super.key,
     required this.message,
@@ -24,6 +15,15 @@ class SnackifyWidget extends StatefulWidget {
     this.animationCurve = Curves.easeInOut,
   });
 
+  final Curve animationCurve;
+  final Duration animationDuration;
+  final Color backgroundColor;
+  final Duration duration;
+  final String message;
+  final double snackbarHeight;
+  final double snackbarWidth;
+  final Color textColor;
+
   @override
   _SnackifyWidgetState createState() => _SnackifyWidgetState();
 }
@@ -32,6 +32,12 @@ class _SnackifyWidgetState extends State<SnackifyWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -61,12 +67,6 @@ class _SnackifyWidgetState extends State<SnackifyWidget>
         }
       });
     });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
