@@ -1,7 +1,8 @@
 name: snackify
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+homepage: https://github.com/Atanu-Sabyasachi/snackify/tree/master
+repository: https://github.com/Atanu-Sabyasachi/snackify/tree/master
 
 environment:
   sdk: ^3.5.0
