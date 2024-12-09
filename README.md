@@ -1,34 +1,138 @@
-# Snackify
-
-A customizable and fancy `SnackBar` widget for Flutter that provides an easy way to display SnackBars with advanced customization options, such as background color, text style, icon support, margin, and more.
-
-![Snackify Image](assets/images/snackify_image.jpg)
+A simple and fancy `SnackBar` widget for Flutter that provides an easy way to display SnackBars with advanced customization options, such as background color, text style, and more.
 
 ## Features
 
-- **Customizable SnackBar**: Fully customizable with options for background color, text style, icon, actions, and more.
-- **Icon Support**: Add an optional icon to the Snackbar with customizable color and size.
-- **Custom Duration**: Set the display duration of the Snackbar.
-- **Elevation & Shape**: Control the elevation and shape (with border radius) of the Snackbar.
-- **Floating Snackbar**: Floating Snackbar behavior with customizable margins and padding.
-- **Dismissal Options**: Dismiss the Snackbar by tapping or swiping.
-- **Stacked SnackBars**: Option to stack multiple SnackBars or replace the existing one.
+- **Customizable SnackBar**: Fully customizable with options for background color, text style and more.
+- **Snack Type**: Set the snack type for different purposes.
+- **Display Duration**: Set the display duration of the Snackbar.
 - **Persistent SnackBar**: Option to keep the Snackbar visible until manually dismissed.
-- **Custom Animations**: Supports custom animations for Snackbar entrance and exit.
-- **Custom Actions**: Add actions (buttons) to the Snackbar, like "Undo".
+- **Position**: Set the snackbar position on top or bottom.
 
-## License
+## Usage
 
-Snackify is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+To display a customized SnackBar, you can use the Snackify.show() method. Here's a breakdown of how to use it:
 
-## Installation
-
-To use `Snackify` in your Flutter project, add the following dependency to your `pubspec.yaml` file:
-
-```yaml
-dependencies:
-  snackify: ^1.0.0
-
-Then, to use Snackify in your Dart file, import it as follows:
-
+```dart
+import 'package:flutter/material.dart';
 import 'package:snackify/snackify.dart';
+
+void showCustomSnackbar(BuildContext context) {
+  Snackify.show(
+    context: context,
+    type: SnackType.success,
+    message: "This is a custom Snackbar!",
+    duration: Duration(seconds: 3),
+    animationDuration: Duration(milliseconds: 500),
+    backgroundGradient: LinearGradient(colors: [Colors.blue, Colors.purple]),
+    position: SnackPosition.bottom,
+    persistent: false, // Set to true to keep Snackbar visible until manually dismissed
+  );
+}
+```
+
+## SnackType
+
+### Success
+
+![Snackify Image](assets/images/success_snack.jpg)
+
+```dart
+Snackify.show(
+  type: SnackType.success,
+  ///...
+);
+```
+### Error
+
+![Snackify Image](assets/images/error_snack.jpg)
+
+```dart
+Snackify.show(
+  type: SnackType.error,
+  ///...
+);
+```
+
+### Warning
+
+![Snackify Image](assets/images/warning_snack.jpg)
+
+```dart
+Snackify.show(
+  type: SnackType.warning,
+  ///...
+);
+```
+### Info
+
+![Snackify Image](assets/images/info_snack.jpg)
+
+```dart
+Snackify.show(
+  type: SnackType.info,
+  ///...
+);
+
+```
+## Parameters
+
+- **context**: The current BuildContext where the snackbar will be displayed.
+- **type**: Specifies the type of the snackbar (SnackType.success, SnackType.error, SnackType.warning, SnackType.info, SnackType.custom)
+- **message**: The main message to be displayed in the snackbar.
+- **duration**: How long the snackbar stays visible (default is 3 seconds).
+- **animationDuration**: Duration of the entrance and exit animation.
+- **backgroundGradient**: Custom gradient background for the snackbar.
+- **position**: Position of the snackbar (default is SnackPosition.bottom, can also be SnackPosition.top).
+- **persistent**: Whether the snackbar should stay visible until manually dismissed (default is false).
+- **action**: Optional custom widget to display as an action button in the snackbar.
+
+## Customization
+
+You can further customize each Snackbar's appearance, such as the background color, icon, text style, and more, by modifying the SnackTypeConfiguration or passing in custom parameters.
+
+### SnackType Configuration
+
+Each SnackType has a default configuration, including colors, icons, text styles, and more. Here’s an example of a custom configuration
+
+```dart
+SnackTypeConfiguration customConfig = SnackTypeConfiguration(
+  backgroundColor: Colors.black,
+  icon: Icons.notifications,
+  iconColor: Colors.white,
+  title: Text('Custom Snackbar'),
+  subtitle: Text('This is a custom snackbar with your settings.'),
+  textStyle: TextStyle(color: Colors.white),
+  elevation: 10.0,
+  margin: EdgeInsets.all(12.0),
+  borderRadius: BorderRadius.circular(16),
+);
+```
+
+You can use this configuration when calling the Snackify.show() method by passing the configured parameters.
+
+## Dismissal Options
+
+- **Tap Dismissal**: The Snackbar can be dismissed by tapping the close button.
+- **Auto Dismissal**: The Snackbar can be automatically dismissed after a specified duration or when persistent is set to false.
+
+## Persistent SnackBar
+
+If you want a Snackbar to remain visible until manually dismissed, set the persistent property to true. This will prevent the Snackbar from being dismissed automatically after the set duration.
+
+```dart 
+///...
+Snackify.show(
+  persistent: true, // Snackbar will not auto-dismiss
+);
+```
+## Conclusion
+
+Snackify provides a powerful way to create highly customizable and stylish SnackBars in Flutter. With options like stacked snackbars, custom animations, persistent snackbars, and more, you can create a rich user experience with minimal effort.
+
+For more details, check the `documentation`.
+
+-------------------------------------------------------------
+
+**Version**: 1.1.0  
+**Author**: Atanu Sabyasachi Jena  
+**License**: MIT
