@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0]
+### Added
+- **Improved Documentation**: Added detailed documentation for the `Snackify` package, including explanations for properties and methods to enhance code clarity and usage.
+  
+### Fixed
+- **Snackbar Rendering Issues**: Fixed minor bugs related to the rendering of snackbars, ensuring they appear correctly.
+- **Auto-dismiss Functionality**: Resolved issues with the snackbar's auto-dismiss behavior, ensuring snackbars are properly dismissed after the set duration or on user interaction.
+
+
 ## [1.0.6]
 ### Fixed
 - Fixed some issues in documentation.
