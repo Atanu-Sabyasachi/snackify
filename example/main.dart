@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:snackify/src/snackify_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:snackify/enums/snack_enums.dart';
+import 'package:snackify/snackify.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,9 +23,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,43 +38,135 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Snackify Example'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Snackify.show(
-              context: context,
-              message: "This is a customizable Snackify Snackbar !",
-              backgroundColor: Colors.indigo,
-              textStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              iconColor: Colors.yellow,
-              icon: Icons.info_outline,
-              elevation: 10.0,
-              margin: const EdgeInsets.all(16.0),
-              borderRadius: BorderRadius.circular(12.0),
-              duration: const Duration(seconds: 5),
-              animationDuration: const Duration(milliseconds: 1000),
-              offset: const Offset(0, 50),
-              animationBuilder: (context, animation, child) {
-                return ScaleTransition(
-                  scale: animation,
-                  child: child,
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Snackify.show(
+                  context: context,
+                  type: SnackType.success,
+                  title: Text(
+                    'Well Done !',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'You have successfully done it !',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                    ),
+                  ),
+                  duration: const Duration(seconds: 3),
+                  animationDuration: const Duration(milliseconds: 1000),
+                  backgroundGradient: const LinearGradient(
+                    colors: [
+                      Colors.teal,
+                      Colors.greenAccent,
+                    ],
+                  ),
+                  position: SnackPosition.bottom,
                 );
               },
-              customWidget: null, // Leave null to use default content
-              stackSnackbars: true,
-              persistent: false,
-              backgroundGradient: const LinearGradient(
-                colors: [Colors.blue, Colors.purple],
-              ),
-              position: SnackifyPosition.bottom,
-              //delay: const Duration(seconds: 1),
-              useTheme: false,
-            );
-          },
-          child: const Text("Show Snackify Snackbar"),
+              child: const Text("Success"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Snackify.show(
+                  context: context,
+                  type: SnackType.error,
+                  backgroundGradient: const LinearGradient(
+                    colors: [
+                      Colors.redAccent,
+                      Colors.deepOrange,
+                    ],
+                  ),
+                  duration: const Duration(seconds: 3),
+                  title: Text(
+                    'Oops ...',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Wrong password !',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                    ),
+                  ),
+                  animationDuration: const Duration(milliseconds: 1000),
+                  position: SnackPosition.bottom,
+                );
+              },
+              child: const Text("Error"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Snackify.show(
+                  context: context,
+                  type: SnackType.warning,
+                  duration: const Duration(seconds: 3),
+                  title: Text(
+                    'Password is weak !',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Try to enter a strong password.',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                    ),
+                  ),
+                  action: TextButton(
+                    onPressed: () {
+                      log('Undo button is pressed');
+                    },
+                    child: const Text('Undo'),
+                  ),
+                  animationDuration: const Duration(milliseconds: 1000),
+                  backgroundGradient: const LinearGradient(
+                    colors: [
+                      Colors.orange,
+                      Colors.yellow,
+                    ],
+                  ),
+                  position: SnackPosition.top,
+                );
+              },
+              child: const Text("Warning"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Snackify.show(
+                  context: context,
+                  type: SnackType.info,
+                  duration: const Duration(seconds: 3),
+                  title: Text(
+                    'Do you know ?',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'You have ₹156 cash in your wallet !',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                    ),
+                  ),
+                  animationDuration: const Duration(milliseconds: 1000),
+                  backgroundGradient: const LinearGradient(
+                    colors: [
+                      Colors.blue,
+                      Colors.lightBlueAccent,
+                    ],
+                  ),
+                  position: SnackPosition.bottom,
+                );
+              },
+              child: const Text("Info"),
+            ),
+          ],
         ),
       ),
     );
