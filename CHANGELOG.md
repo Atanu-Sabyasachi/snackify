@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0]
+### Added
+- **Text-to-Speech (TTS) Support**: Integrated TTS functionality for snackbar, allowing snackbar to be read aloud for better accessibility.
+- **Box Shadow for Snackbar**: Introduced a box shadow effect to snackbars for a more modern and visually appealing design.
+- **Improved Documentation**: Added detailed documentation for the `Snackify` package, including explanations for properties and methods to enhance code clarity and usage.
+  
+### Fixed
+- **Snackbar Animation**: Fixed minor issues with the animation of snackbars, ensuring smoother transitions when they appear and disappear
+- **Dismiss Functionality**: Resolved issues with the snackbar's dismiss behavior, ensuring snackbars are properly dismissed by swiping horizontally.
+
+
 ## [1.1.0]
 ### Added
 - **Improved Documentation**: Added detailed documentation for the `Snackify` package, including explanations for properties and methods to enhance code clarity and usage.

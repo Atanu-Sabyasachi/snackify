@@ -7,6 +7,7 @@ A simple and fancy `SnackBar` widget for Flutter that provides an easy way to di
 - **Display Duration**: Set the display duration of the Snackbar.
 - **Persistent SnackBar**: Option to keep the Snackbar visible until manually dismissed.
 - **Position**: Set the snackbar position on top or bottom.
+- **Text-To-Speech**: Read the message aloud using text to speech configuration.
 
 ## Usage
 
@@ -72,25 +73,24 @@ Snackify.show(
   type: SnackType.info,
   ///...
 );
-
 ```
 ## Parameters
 
 - **context**: The current BuildContext where the snackbar will be displayed.
 - **type**: Specifies the type of the snackbar (SnackType.success, SnackType.error, SnackType.warning, SnackType.info, SnackType.custom)
-- **message**: The main message to be displayed in the snackbar.
+- **title**: The title of the snackbar.
+- **subtitle**: The subtitle text displayed below the title.
+- **offset**: The offset from the top or bottom of the screen. Defaults to (0, 0).
+- **delay**: A delay before the snackbar is shown.
 - **duration**: How long the snackbar stays visible (default is 3 seconds).
 - **animationDuration**: Duration of the entrance and exit animation.
 - **backgroundGradient**: Custom gradient background for the snackbar.
 - **position**: Position of the snackbar (default is SnackPosition.bottom, can also be SnackPosition.top).
 - **persistent**: Whether the snackbar should stay visible until manually dismissed (default is false).
 - **action**: Optional custom widget to display as an action button in the snackbar.
+- **ttsConfig**: Configuration for (Text-to-Speech) to activate snack message reading
 
-## Customization
-
-You can further customize each Snackbar's appearance, such as the background color, icon, text style, and more, by modifying the SnackTypeConfiguration or passing in custom parameters.
-
-### SnackType Configuration
+## SnackType Configuration
 
 Each SnackType has a default configuration, including colors, icons, text styles, and more. Here’s an example of a custom configuration
 
@@ -110,9 +110,31 @@ SnackTypeConfiguration customConfig = SnackTypeConfiguration(
 
 You can use this configuration when calling the Snackify.show() method by passing the configured parameters.
 
+## Text-to-Speech (TTS) Integration
+With the Text-to-Speech (TTS) feature, you can have the snackify messages read aloud when it appears on the screen.
+
+To enable TTS, provide a TTSConfiguration object with the speakOnShow parameter set to true. Additionally, you can customize the language, speech rate, and pitch for the TTS.
+
+Example:
+
+```dart
+Snackify.show(
+  context: context,
+  type: SnackType.info,
+  message: "This is an informational Snackbar.",
+  ttsConfig: TTSConfiguration(
+    speakOnShow: true, // this will enable TTS
+    language: 'en-US',
+    speechRate: 0.5,
+    pitch: 1.0,
+  ),
+);
+```
+
 ## Dismissal Options
 
 - **Tap Dismissal**: The Snackbar can be dismissed by tapping the close button.
+- **Swipe Dismissal**: User can dismiss the snack by swiping horizontally.
 - **Auto Dismissal**: The Snackbar can be automatically dismissed after a specified duration or when persistent is set to false.
 
 ## Persistent SnackBar
@@ -120,9 +142,10 @@ You can use this configuration when calling the Snackify.show() method by passin
 If you want a Snackbar to remain visible until manually dismissed, set the persistent property to true. This will prevent the Snackbar from being dismissed automatically after the set duration.
 
 ```dart 
-///...
+
 Snackify.show(
   persistent: true, // Snackbar will not auto-dismiss
+  ///...
 );
 ```
 ## Conclusion
@@ -133,6 +156,6 @@ For more details, check the `documentation`.
 
 -------------------------------------------------------------
 
-**Version**: 1.1.0  
+**Version**: 1.2.0  
 **Author**: Atanu Sabyasachi Jena  
 **License**: MIT
