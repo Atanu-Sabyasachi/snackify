@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snackify/enums/snack_enums.dart';
 import 'package:snackify/snackify.dart';
+import 'package:snackify/tts_config.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.white,
                     ),
                   ),
+                  ttsConfig: TTSConfiguration(speakOnShow: true),
                   duration: const Duration(seconds: 3),
                   animationDuration: const Duration(milliseconds: 1000),
                   backgroundGradient: const LinearGradient(
@@ -75,12 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Snackify.show(
                   context: context,
                   type: SnackType.error,
-                  backgroundGradient: const LinearGradient(
-                    colors: [
-                      Colors.redAccent,
-                      Colors.deepOrange,
-                    ],
-                  ),
+                  backgroundGradient: const LinearGradient(colors: [
+                    Colors.redAccent,
+                    Colors.deepOrange,
+                  ]),
                   duration: const Duration(seconds: 3),
                   title: Text(
                     'Oops ...',
@@ -94,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.white,
                     ),
                   ),
+                  ttsConfig: TTSConfiguration(speakOnShow: true),
                   animationDuration: const Duration(milliseconds: 1000),
                   position: SnackPosition.bottom,
                 );
@@ -122,16 +123,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       log('Undo button is pressed');
                     },
-                    child: const Text('Undo'),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Undo',
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ),
+                  ttsConfig: TTSConfiguration(speakOnShow: true),
                   animationDuration: const Duration(milliseconds: 1000),
-                  backgroundGradient: const LinearGradient(
-                    colors: [
-                      Colors.orange,
-                      Colors.yellow,
-                    ],
-                  ),
-                  position: SnackPosition.top,
+                  backgroundGradient: const LinearGradient(colors: [
+                    Colors.orange,
+                    Colors.yellow,
+                  ]),
+                  position: SnackPosition.bottom,
                 );
               },
               child: const Text("Warning"),
@@ -154,13 +162,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.white,
                     ),
                   ),
+                  snackShadow: [
+                    const BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 6.0,
+                      spreadRadius: 2.0,
+                      offset: Offset(4, 4),
+                    ),
+                  ],
+                  persistent: true,
+                  ttsConfig: TTSConfiguration(speakOnShow: true),
                   animationDuration: const Duration(milliseconds: 1000),
-                  backgroundGradient: const LinearGradient(
-                    colors: [
-                      Colors.blue,
-                      Colors.lightBlueAccent,
-                    ],
-                  ),
+                  backgroundGradient: const LinearGradient(colors: [
+                    Colors.blue,
+                    Colors.lightBlueAccent,
+                  ]),
                   position: SnackPosition.bottom,
                 );
               },

@@ -1,6 +1,6 @@
 name: snackify
-description: A customizable and fancy SnackBar widget for Flutter with advanced customization options, such as background color, text style, icon support, margin, and more.
-version: 1.1.0
+description: Snackify is a Flutter package for displaying feature-rich snackbars with various types, titles, messages, and optional actions. It supports custom gradients, positioning, persistence, and text-to-speech features, offering an enhanced notification experience.
+version: 1.2.0
 license: MIT
 homepage: https://github.com/Atanu-Sabyasachi/snackify/tree/master
 repository: https://github.com/Atanu-Sabyasachi/snackify/tree/master
@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts:
+  flutter_tts:
 
 dev_dependencies:
   flutter_test:

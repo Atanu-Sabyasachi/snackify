@@ -34,6 +34,10 @@ flutter_lints
 3.1
 file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-4.0.0/
 file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-4.0.0/lib/
+flutter_tts
+3.4
+file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_tts-4.2.0/
+file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_tts-4.2.0/lib/
 google_fonts
 2.14
 file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/google_fonts-6.2.1/
@@ -166,6 +170,10 @@ flutter_test
 3.3
 file:///C:/src/flutter/packages/flutter_test/
 file:///C:/src/flutter/packages/flutter_test/lib/
+flutter_web_plugins
+3.2
+file:///C:/src/flutter/packages/flutter_web_plugins/
+file:///C:/src/flutter/packages/flutter_web_plugins/lib/
 snackify
 3.5
 file:///D:/exe_files/Flutter/Practice/snackify/
