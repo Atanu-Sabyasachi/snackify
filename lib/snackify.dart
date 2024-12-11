@@ -1,77 +1,113 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:snackify/enums/snack_enums.dart';
-import 'package:snackify/animation_initializer.dart';
-import 'package:snackify/snacktype_configuration.dart';
+// ignore_for_file: use_build_context_synchronously
 
-/// Snackify: A customizable Snackbar alternative with enhanced flexibility.
+import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart'; // Import the TTS package
+import 'package:snackify/enums/snack_enums.dart';
+import 'package:snackify/initializers.dart';
+import 'package:snackify/overlay_entry.dart';
+import 'package:snackify/snack_type_details.dart';
+import 'package:snackify/snacktype_configuration.dart';
+import 'package:snackify/tts_config.dart';
+
+/// Snackify: A customizable Snack alternative with enhanced flexibility.
+/// This class allows you to display snacks with customizable properties such as
+/// animation, position, background gradient, text-to-speech functionality, and more.
 class Snackify {
+  // FlutterTts instance for Text-to-Speech functionality
+  static final FlutterTts _flutterTts = FlutterTts();
+
   /// A list that holds all active OverlayEntries.
-  /// This helps manage active snackbars and remove them as needed.
+  /// This helps manage active snacks and remove them as needed.
   static final List<OverlayEntry> _activeEntries = [];
 
-  /// Displays a customizable snackbar using an overlay.
+  /// Displays a customizable snack using an overlay.
   ///
-  /// This method allows you to show a snackbar with a variety of options
-  /// such as position, animation duration, background gradient, action button,
-  /// and more.
+  /// This method allows you to show a snack with a variety of options such as position,
+  /// animation duration, background gradient, action button, and more.
   ///
-  /// - [context]: The BuildContext to insert the snackbar into the overlay.
-  /// - [type]: The type of the snackbar (e.g., success, error).
-  /// - [title]: The title of the snackbar.
+  /// - [context]: The BuildContext to insert the snack into the overlay.
+  ///
+  /// - [type]: The type of the snack (e.g., success, error).
+  ///
+  /// - [title]: The title of the snack.
+  ///
   /// - [subtitle]: The subtitle text displayed below the title.
-  /// - [duration]: The duration for which the snackbar is visible.
-  /// - [animationDuration]: The duration of the snackbar's entrance/exit animation.
-  /// - [offset]: The offset from the top or bottom of the screen.
-  /// - [persistent]: Whether the snackbar should remain visible until manually closed.
-  /// - [backgroundGradient]: A gradient background for the snackbar.
-  /// - [position]: The position of the snackbar (top, bottom).
+  ///
+  /// - [duration]: The duration for which the snack is visible. Defaults to 3 seconds.
+  ///
+  /// - [animationDuration]: The duration of the snack's entrance/exit animation.
+  ///
+  /// - [offset]: The offset from the top or bottom of the screen. Defaults to (0, 0).
+  ///
+  /// - [persistent]: Whether the snack should remain visible until manually closed.
+  ///
+  /// - [backgroundGradient]: A gradient background for the snack.
+  ///
+  /// - [position]: The position of the snack (top or bottom).
+  ///
   /// - [action]: An optional widget for custom action (e.g., a button).
-  /// - [delay]: A delay before the snackbar is shown.
+  ///
+  /// - [delay]: A delay before the snack is shown.
+  ///
+  /// - [ttsConfig]: Configuration for (Text-to-Speech) to activate snack message reading..
+
   static void show({
-    /// The BuildContext where the snackbar will be displayed.
+    /// The BuildContext where the snack will be displayed.
     required BuildContext context,
 
-    /// The type of the snackbar (e.g., success, error).
+    /// The type of the snack (e.g., success, error).
     required SnackType type,
 
-    /// The title to display in the snackbar.
+    /// The title to display in the snack.
     Text? title,
 
-    /// The subtitle to display below the title in the snackbar.
+    /// The subtitle to display below the title in the snack.
     Text? subtitle,
 
-    /// The duration for which the snackbar is visible. Defaults to 3 seconds.
+    /// The duration for which the snack is visible. Defaults to 3 seconds.
     Duration? duration,
 
-    /// The duration of the snackbar's entrance/exit animation.
+    /// Animation Duration of the snack.
     Duration? animationDuration,
 
     /// The offset from the top or bottom of the screen. Defaults to (0, 0).
     Offset offset = const Offset(0, 0),
 
-    /// Whether the snackbar should remain visible until manually closed.
+    /// Whether the snack should remain visible until manually closed.
     bool persistent = false,
 
-    /// A gradient background for the snackbar.
+    /// A gradient background for the snack.
     Gradient? backgroundGradient,
 
-    /// The position of the snackbar on the screen (top or bottom).
+    /// A list of shadow for the snack.
+    List<BoxShadow>? snackShadow,
+
+    /// The position of the snack on the screen (top or bottom).
     SnackPosition position = SnackPosition.bottom,
 
     /// An optional widget for custom action (e.g., a button).
     Widget? action,
 
-    /// A delay before the snackbar is shown.
+    /// A delay before the snack is shown.
     Duration? delay,
-  }) {
-    final OverlayState overlayState = Overlay.of(context);
-    final purposeDetails = _getPurposeDetails(type);
 
-    // Remove all active snackbars if stackSnackbars is false
-    //if (!stackSnackbars) {
-    //_removeAllActiveEntries();
-    //}
+    /// Configuration for Text-To-Speech service
+    TTSConfiguration? ttsConfig,
+  }) async {
+    final OverlayState overlayState = Overlay.of(context);
+    final SnackTypeConfiguration purposeDetails = getPurposeDetails(type);
+
+    // Configure TTS properties
+    if (ttsConfig != null && ttsConfig.speakOnShow) {
+      await _flutterTts.setLanguage(ttsConfig.language ?? '');
+      await _flutterTts.setSpeechRate(ttsConfig.speechRate ?? 0);
+      await _flutterTts.setPitch(ttsConfig.pitch ?? 0);
+
+      // Speak the message if speakOnShow is true
+      if (ttsConfig.speakOnShow) {
+        await _flutterTts.speak(("${title?.data}" "${subtitle?.data}"));
+      }
+    }
 
     final animationController = createAnimationController(
       overlayState,
@@ -80,11 +116,12 @@ class Snackify {
 
     OverlayEntry? overlayEntry;
 
-    overlayEntry = _buildOverlayEntry(
+    overlayEntry = buildOverlayEntry(
       context: context,
       title: title ?? purposeDetails.title,
       subtitle: subtitle ?? purposeDetails.subtitle,
       snackType: type,
+      speakOnShow: ttsConfig?.speakOnShow ?? false,
       backgroundColor: purposeDetails.backgroundColor,
       iconColor: purposeDetails.iconColor,
       icon: purposeDetails.icon,
@@ -94,19 +131,24 @@ class Snackify {
       offset: offset,
       animationController: animationController,
       backgroundGradient: backgroundGradient,
+      snackShadow: snackShadow,
       position: position,
       actionWidget: action,
-      onClose: () {
+      onClose: () async {
         animationController.reverse().then((_) {
           if (overlayEntry != null) {
             _removeOverlayEntry(overlayEntry!);
             overlayEntry = null;
           }
         });
+        await _flutterTts.stop();
+      },
+      onDismissed: (direction) async {
+        await _flutterTts.stop();
       },
     );
 
-    // Show snackbar with delay if specified
+    // Show snack with delay if specified
     if (delay != null) {
       Future.delayed(delay, () {
         if (overlayEntry != null) {
@@ -121,7 +163,7 @@ class Snackify {
       }
     }
 
-    // Remove the snackbar after the specified duration if persistent is false
+    // Remove the snack after the specified duration if persistent is false
     if (!persistent) {
       Future.delayed(duration ?? const Duration(seconds: 3), () {
         animationController.reverse().then((_) {
@@ -134,259 +176,29 @@ class Snackify {
     }
   }
 
-  // =================== PRIVATE HELPER METHODS =================== //
-
-  /// Builds the overlay entry for the snackbar.
-  ///
-  /// This method constructs the actual snackbar widget and handles animation.
-  /// It also defines its appearance, position, and behavior when dismissed.
-  static OverlayEntry _buildOverlayEntry({
-    required BuildContext context,
-    required Text title,
-    required Text subtitle,
-    required SnackType snackType,
-    required Color backgroundColor,
-    required Color iconColor,
-    required IconData icon,
-    required double? elevation,
-    required EdgeInsetsGeometry? margin,
-    required BorderRadiusGeometry? borderRadius,
-    required Offset offset,
-    required AnimationController animationController,
-    required Gradient? backgroundGradient,
-    required SnackPosition position,
-    required Widget? actionWidget,
-    required VoidCallback onClose,
-  }) {
-    return OverlayEntry(
-      builder: (context) {
-        final animation = CurvedAnimation(
-          parent: animationController,
-          curve: Curves.easeOutBack,
-        );
-
-        return Positioned(
-          top: position == SnackPosition.top ? offset.dy + 16.0 : null,
-          bottom: position == SnackPosition.bottom ? offset.dy + 16.0 : null,
-          left: offset.dx,
-          right: offset.dx,
-          child: Material(
-            color: Colors.transparent,
-            child: _buildSnackbar(
-              context,
-              title,
-              subtitle,
-              snackType,
-              backgroundColor,
-              iconColor,
-              icon,
-              elevation,
-              margin,
-              borderRadius,
-              animation,
-              actionWidget,
-              backgroundGradient,
-              onClose,
-              position,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  /// Builds the snackbar widget.
-  ///
-  /// This method returns the actual UI representation of the snackbar.
-  /// It includes features such as custom icons, text, and action buttons.
-  static Widget _buildSnackbar(
-    BuildContext context,
-    Text title,
-    Text subtitle,
-    SnackType snackType,
-    Color backgroundColor,
-    Color iconColor,
-    IconData icon,
-    double? elevation,
-    EdgeInsetsGeometry? margin,
-    BorderRadiusGeometry? borderRadius,
-    Animation<double> animation,
-    Widget? actionWidget,
-    Gradient? backgroundGradient,
-    VoidCallback onClose,
-    SnackPosition position,
-  ) {
-    // Determine the start and end positions based on SnackPosition
-    final Offset startOffset = position == SnackPosition.top
-        ? const Offset(0, -1) // From the top
-        : const Offset(0, 1); // From the bottom
-
-    const Offset endOffset = Offset.zero; // Centered (visible)
-
-    return FadeTransition(
-      opacity: animation,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: startOffset, // Start from off-screen
-          end: endOffset, // Move to the center
-        ).animate(animation),
-        child: Dismissible(
-          key: UniqueKey(),
-          child: Container(
-            margin: margin ?? const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              gradient: backgroundGradient,
-              borderRadius: borderRadius ?? BorderRadius.circular(8.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6.0,
-                  spreadRadius: 2.0,
-                ),
-              ],
-            ),
-            child: ListTile(
-              leading: Icon(
-                icon,
-                color: iconColor,
-              ),
-              title: title,
-              subtitle: subtitle,
-              trailing: actionWidget ??
-                  IconButton(
-                    icon: Icon(Icons.close, color: iconColor),
-                    onPressed: onClose,
-                  ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   /// Inserts the overlay entry into the screen.
   ///
-  /// This method is responsible for adding the snackbar to the overlay
-  /// and starting the entrance animation.
-  static void _insertOverlayEntry(OverlayState overlayState,
-      OverlayEntry overlayEntry, AnimationController animationController) {
+  /// This method inserts the snack into the overlay and starts its entrance animation.
+  ///
+  /// - [overlayState]: The state of the overlay where the snack will be inserted.
+  /// - [overlayEntry]: The overlay entry representing the snack.
+  /// - [animationController]: The animation controller that controls the snack's animation.
+  static void _insertOverlayEntry(
+    OverlayState overlayState,
+    OverlayEntry overlayEntry,
+    AnimationController animationController,
+  ) {
     overlayState.insert(overlayEntry);
     animationController.forward();
   }
 
   /// Removes a given overlay entry from the screen.
   ///
-  /// This method is called to remove the snackbar from the screen once it's dismissed.
+  /// This method removes the snack from the overlay after its exit animation is completed.
+  ///
+  /// - [overlayEntry]: The overlay entry to be removed.
   static void _removeOverlayEntry(OverlayEntry overlayEntry) {
     overlayEntry.remove();
     _activeEntries.remove(overlayEntry);
-  }
-
-  // /// Removes all active overlay entries.
-  // ///
-  // /// This method clears all currently active snackbars from the screen.
-  // static void _removeAllActiveEntries() {
-  //   for (var entry in _activeEntries) {
-  //     entry.remove();
-  //   }
-  //   _activeEntries.clear();
-  // }
-
-  /// Gets the details of the snackbar based on its type.
-  ///
-  /// This method retrieves configuration options such as background color,
-  /// icon, text style, etc., for the specified snackbar type.
-  static SnackTypeConfiguration _getPurposeDetails(SnackType purpose) {
-    switch (purpose) {
-      case SnackType.success:
-        return SnackTypeConfiguration(
-          backgroundColor: Colors.green,
-          icon: Icons.check_circle,
-          iconColor: Colors.white,
-          title: Text(
-            'Success!',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-            ),
-          ),
-          subtitle: Text(
-            'This is a success message',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-            ),
-          ),
-          textStyle: const TextStyle(color: Colors.white),
-          elevation: 6.0,
-          margin: const EdgeInsets.all(8.0),
-          borderRadius: BorderRadius.circular(10),
-        );
-      case SnackType.error:
-        return SnackTypeConfiguration(
-          backgroundColor: Colors.red,
-          icon: Icons.error,
-          iconColor: Colors.white,
-          title: Text(
-            'Error!',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-            ),
-          ),
-          subtitle: Text(
-            'This is an error message',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-            ),
-          ),
-          textStyle: const TextStyle(color: Colors.white),
-          elevation: 6.0,
-          margin: const EdgeInsets.all(8.0),
-          borderRadius: BorderRadius.circular(10),
-        );
-      case SnackType.warning:
-        return SnackTypeConfiguration(
-          backgroundColor: Colors.yellow[700]!,
-          icon: Icons.warning,
-          iconColor: Colors.white,
-          title: Text(
-            'Warning!',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-            ),
-          ),
-          subtitle: Text(
-            'This is a warning message',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-            ),
-          ),
-          textStyle: const TextStyle(color: Colors.black),
-          elevation: 6.0,
-          margin: const EdgeInsets.all(8.0),
-          borderRadius: BorderRadius.circular(10),
-        );
-      case SnackType.info:
-        return SnackTypeConfiguration(
-          backgroundColor: Colors.blue,
-          icon: Icons.info,
-          iconColor: Colors.white,
-          title: Text(
-            'Info',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-            ),
-          ),
-          subtitle: Text(
-            'This is an info message',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-            ),
-          ),
-          textStyle: const TextStyle(color: Colors.white),
-          elevation: 6.0,
-          margin: const EdgeInsets.all(8.0),
-          borderRadius: BorderRadius.circular(10),
-        );
-    }
   }
 }
