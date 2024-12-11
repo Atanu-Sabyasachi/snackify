@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] 
+### Fixed
+- **Documentation**: Fixed minor issues with documentation
+
+
 ## [1.2.0]
 ### Added
 - **Text-to-Speech (TTS) Support**: Integrated TTS functionality for snackbar, allowing snackbar to be read aloud for better accessibility.

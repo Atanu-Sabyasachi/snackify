@@ -1,3 +1,5 @@
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-yellow)](https://buymeacoffee.com/atanusabyasachi)
+
 A simple and fancy `SnackBar` widget for Flutter that provides an easy way to display SnackBars with advanced customization options, such as background color, text style, and more.
 
 ## Features
