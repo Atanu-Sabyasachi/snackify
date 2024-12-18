@@ -2,10 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] 
+### Fixed
+- **Documentation**: Fixed major issues with documentation
+
 ## [1.2.1] 
 ### Fixed
 - **Documentation**: Fixed minor issues with documentation
-
 
 ## [1.2.0]
 ### Added

@@ -1,6 +1,6 @@
 name: snackify
-description: Snackify is a Flutter package for creating sleek, animated snackbars with customizable options for message type, position, duration, and more, enhancing user notifications in your app.
-version: 1.2.1
+description: Snackify is a Flutter package for creating animated, customizable snackbars with options for message type, position, duration, and more, improving user notifications.
+version: 1.2.2
 license: MIT
 homepage: https://github.com/Atanu-Sabyasachi/snackify/tree/master
 repository: https://github.com/Atanu-Sabyasachi/snackify/tree/master

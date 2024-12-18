@@ -37,6 +37,8 @@ class Snackify {
   ///
   /// - [animationDuration]: The duration of the snack's entrance/exit animation.
   ///
+  /// - [snackShadow]: A list of shadow for the snack.
+  ///
   /// - [offset]: The offset from the top or bottom of the screen. Defaults to (0, 0).
   ///
   /// - [persistent]: Whether the snack should remain visible until manually closed.
