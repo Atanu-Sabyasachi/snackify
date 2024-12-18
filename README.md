@@ -24,17 +24,19 @@ import 'package:flutter/material.dart';
 import 'package:snackify/snackify.dart';
 
 void showCustomSnackbar(BuildContext context) {
-  Snackify.show(
-    context: context,
-    type: SnackType.success,
-    message: "This is a custom Snackbar!",
-    duration: Duration(seconds: 3),
-    animationDuration: Duration(milliseconds: 500),
-    backgroundGradient: LinearGradient(colors: [Colors.blue, Colors.purple]),
-    position: SnackPosition.bottom,
-    persistent: false, // Set to true to keep Snackbar visible until manually dismissed
-  );
-}
+    Snackify.show(
+      context: context,
+      type: SnackType.success,
+      title: Text('Hello !'),
+      subtitle: Text('This is a custom Snackbar.'),
+      ttsConfig: TTSConfiguration(speakOnShow: true),
+      duration: const Duration(seconds: 3),
+      animationDuration: const Duration(milliseconds: 500),
+      backgroundGradient: const LinearGradient(colors: [Colors.teal, Colors.greenAccent]),
+      position: SnackPosition.bottom,
+      persistent: false, // Set to true to keep Snackbar visible until manually dismissed
+    );
+  }
 ```
 
 ## SnackType
@@ -128,7 +130,8 @@ Example:
 Snackify.show(
   context: context,
   type: SnackType.info,
-  message: "This is an informational Snackbar.",
+  title: 'Information',
+  subTitle: "This is an informational Snackbar.",
   ttsConfig: TTSConfiguration(
     speakOnShow: true, // this will enable TTS
     language: 'en-US',
@@ -182,6 +185,6 @@ I develop this package in my free time. If you or your company benefits from thi
 
 -------------------------------------------------------------
 
-**Version**: 1.2.3  
+**Version**: 1.2.4  
 **Author**: Atanu Sabyasachi Jena  
 **License**: MIT
