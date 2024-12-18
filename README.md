@@ -1,8 +1,6 @@
 <!-- [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-yellow)](https://buymeacoffee.com/atanusabyasachi) -->
 ## Support Me
 
-If you enjoy my work, consider buying me a pizza to keep me fueled! 
-
 <a href="https://www.buymeacoffee.com/AtanuSabyasachi"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=AtanuSabyasachi&button_colour=FFDD00&font_colour=000000&font_family=Poppins&outline_colour=000000&coffee_colour=ffffff" />
 </a>
 
@@ -184,6 +182,6 @@ I develop this package in my free time. If you or your company benefits from thi
 
 -------------------------------------------------------------
 
-**Version**: 1.2.2  
+**Version**: 1.2.3  
 **Author**: Atanu Sabyasachi Jena  
 **License**: MIT
